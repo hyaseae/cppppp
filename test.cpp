@@ -10,12 +10,12 @@ int main()
         queue[i] = i+1;
     }
     int last_index = n;
-    for (int i = 0; i < n-1; i ++)
+    for (int i = 0; i < 2*n-2; i +=2)
     {
         queue[i] = 0;
         queue[last_index] = queue[i+1];
         queue[i+1]=0;
-        last_index ++;
+        last_index++;
     }
     printf("%d",queue[last_index-1]);
 }
