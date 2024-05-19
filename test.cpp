@@ -1,21 +1,24 @@
 #include <stdio.h>
-int queue[1000000];
+long long int cache[50] = {1,31};
+long long int pow(int n)
+{
+    if (cache[n]!= 0)
+    {
+        return cache[n];
+    }
+    else
+    {
+        cache[n] = (pow(n-1)*31)%1234567891;
+        return cache[n];
+
+    }
+}
 int main()
 {
-    int n;
-    scanf("%d",&n);
-    //n = 4;
-    for (int i = 0; i < n; i ++)
+    printf("%lld\n",pow(10));
+    printf("cache:%lld ",cache[0]);
+    for (int i = 0; i < 10; i ++)
     {
-        queue[i] = i+1;
+        printf("%lld\n",cache[i]);
     }
-    int last_index = n;
-    for (int i = 0; i < 2*n-2; i +=2)
-    {
-        queue[i] = 0;
-        queue[last_index] = queue[i+1];
-        queue[i+1]=0;
-        last_index++;
-    }
-    printf("%d",queue[last_index-1]);
 }
