@@ -1,24 +1,28 @@
 #include <stdio.h>
-long long int cache[50] = {1,31};
-long long int pow(int n)
-{
-    if (cache[n]!= 0)
-    {
-        return cache[n];
-    }
-    else
-    {
-        cache[n] = (pow(n-1)*31)%1234567891;
-        return cache[n];
-
-    }
-}
+int value[10];
 int main()
 {
-    printf("%lld\n",pow(10));
-    printf("cache:%lld ",cache[0]);
-    for (int i = 0; i < 10; i ++)
+    int n,k;
+    scanf("%d %d",&n,&k);
+    for (int i = 0; i < n; i ++)
     {
-        printf("%lld\n",cache[i]);
+        scanf("%d",&value[i]);
     }
+    int scope = n-1;
+    int cnt=0;
+    for (int i = 0; i<n; i ++)
+    {
+        for (int j = scope; j >= 0; j --)
+        {
+            if (value[j] <= k) 
+            {
+                scope = j;
+                k-=value[j];
+                cnt++;
+                break;
+            }
+        }
+    }
+    printf("%d",cnt);
+    return 0;
 }

@@ -1,3 +1,20 @@
 import numpy as np
-city = np.zeros((16,16),np.float16)
-print(city)
+import val
+import citymap
+#print(citymap.city)
+#citymap.city[5,:] = val.WAY
+#print(citymap.city) #hmm...
+
+
+
+
+
+
+
+
+
+
+
+
+
+

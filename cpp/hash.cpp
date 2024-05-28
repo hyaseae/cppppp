@@ -9,6 +9,14 @@ long long int pow(int n)
     cache[n] = (pow(n-1)*31)%1234567891;
     return cache[n];
 }
+int hashing(char* c)
+{
+    int ans;
+    for (int i = 0; c[i] != '\0'; i ++)
+    {
+        
+    }
+}
 int main()
 {
     long long int result = 0;
@@ -18,7 +26,7 @@ int main()
     {
         char c;
         scanf("%c",&c);
-        result += (c - 'a' + 1) * pow(i);
+        result += ((c - 'a' + 1) * pow(i))%1234567891;
     }
     printf("%lld\n",result);
     return 0;
