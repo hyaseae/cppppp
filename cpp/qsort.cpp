@@ -1,5 +1,5 @@
 #include <stdio.h>
-int d[100000];
+int d[100001];
 int n;
 
 int big(int a, int b)
@@ -10,9 +10,10 @@ int small(int a, int b)
 {
 	return a<b?a:b;
 }
-void show()
+void show(int from = 1, int to1 = 0)
 {
-	for (int i = 0 ; i < n ; i ++)
+	int to = to1==0?n:to1;
+	for (int i = from ; i <= to ; i ++)
 	{
 		printf("%d ",d[i]);
 	}
@@ -27,13 +28,22 @@ void swap(int a, int b)
 
 void Qsort(int from,int to)
 {
-	if (to - from <= 1) return;
+	printf("from:%d to:%d\n",from,to);
+	if (to - from < 1) return;
+	if (to-from == 1)
+	{
+		if (d[to] < d[from])
+		{
+			swap(from,to);
+			return;
+		}
+	}
 	int a=0,b=0,c=0;
 	int pivot = 0;
 	int pivot_index = 0;
 	a = d[from];
 	b = d[to];
-	c = d[(to-from)/2 + from];
+	c = d[(from+to)/2];
 	if (a>small(b,c)&& big(b,c)>a) // a 중앙 
 	{
 		;
@@ -43,46 +53,53 @@ void Qsort(int from,int to)
 		swap(from,to);
 	}
 	else {
-		swap((to-from)/2 + from,from);
+		swap((from+to)/2,from);
 	}
 	//c 중앙
 	pivot = d[from];
-	int low = from+1;
+	int low = from;
 	int high = to;
 	pivot_index = from;
 	int out = 0;
-	while(out!=0)
+	while(out==0)
 	{
 		while (1)
 		{
+			show(from,to);
+			printf("low:%d d:%d\n",low,d[low]);
 			if (d[low] > pivot)
 			{
 				break;
 			}
 			if (low > high)
-			break;
+				break;
 			low ++;
 		}
 		//low 찾음 
 		while (1)
 		{
+			show(from,to);
+			printf("high:%d d:%d\n",high,d[high]);
 			if (d[high] < pivot)
 			{
 				break;
 			}
 			if (low > high)
-			break;
+				break;
 			high --;
 		}
 		if (low > high)
 			break;
 		
 		swap(low,high);
+		printf("swaped:");
+		show();
 	}
 	swap(high,pivot_index);
+	pivot_index = high;
 	//왼 작 오 큼 
 	
-	Qsort(from,pivot_index);
+	Qsort(from,pivot_index-1);
     Qsort(pivot_index+1, to);
 	
 	return;
@@ -92,13 +109,18 @@ void Qsort(int from,int to)
 int main()
 {
 	
-	scanf("%d",&n);
-	for (int i = 0 ; i < n ; i ++)
+	
+	while(1)
 	{
-		scanf("%d",&d[i]);
+		n++;
+		scanf("%d",&d[n]);
+		if (d[n] == 0) break;
 	}
-	Qsort(0,n);
+	Qsort(1,n-1);
 	printf("r:");
-	show();
+	show(1,n-1);
 }
 //  14 10 6 3 9 5 7 8 4
+//10 5 6 2 9 8 1 7 3 4
+/*
+*/

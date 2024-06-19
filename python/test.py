@@ -1,4 +1,3 @@
-a = int(input())
-for i in range(a):
-    b,c = map(input().split,int)
-    print(b+c)
+a= float(input())
+print("YES")
+print("{} {}".format(int(a*10**9),10**9))
