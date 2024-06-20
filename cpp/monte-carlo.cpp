@@ -1,4 +1,4 @@
-#include <cmath>
+#include <math.h>
 #include <stdio.h>
 #include <time.h>
 typedef long long int lld;
@@ -30,7 +30,7 @@ void init_rand(lld seed = 0)
 {
     struct timespec ts;
     clock_gettime(CLOCK_REALTIME, &ts);
-    long long ms = ts.tv_nsec / 1000; // Convert nanoseconds to milliseconds
+    long long ms = ts.tv_nsec / 1000; 
     if (seed == 0)
         seed = ms;
     rnd = seed;
@@ -42,32 +42,15 @@ lld rng()
     rnd %= p3;
     return rnd;
 }
-lld refined_random(int start, int end, float step = 1)
+double randfrom(double min, double max)
 {
-    if (end < start)
-        return -1;
-    if (step < 0)
-        return -1;
-    int dif = end - start;
-    int r = rng();
-    r %= dif;
-    r += start;
-    return r;
-}
-double randfrom(double min, double max) 
-{
-    double range = (max - min); 
-    double div = p1 / range;
+    double range = (max - min);
+    double div = p3 / range;
     return min + (rng() / div);
 }
 void push_(lld num, int dim_now)
 {
-    if (dim[dim_now] == 0)
-        dim[dim_now] = num;
-    else
-    {
-        dim[dim_now] += num;
-    }
+    dim[dim_now] += num;
 }
 void show_dim()
 {
@@ -80,12 +63,25 @@ void show_dim()
 void what()
 {
     push_(now_front_num * plus, dim_maybe);
-    show_dim();
+    // show_dim();
     now_front_num = 0;
     dim_maybe = 0;
     mode = 0;
 }
+double normal_function(double x)
+{
+    double ans = 0;
+    // printf("%f %f", start, end);
+    for (int i = 0; i < dim_max; i++)
+    {
+        if (dim[i] == 0)
+            continue;
 
+        ans += std::pow(x, i) * dim[i];
+        // printf("%f\n", ans);
+    }
+    return ans;
+}
 double normal_integral(float start, float end)
 {
     double ans = 0;
@@ -96,23 +92,68 @@ double normal_integral(float start, float end)
             continue;
 
         ans -= std::pow(start, i + 1) * dim[i] / (i + 1);
-        printf("%f\n", ans);
+        // printf("%f\n", ans);
     }
     for (int i = 0; i < dim_max; i++)
     {
         if (dim[i] == 0)
             continue;
         ans += std::pow(end, i + 1) * dim[i] * 1 / (i + 1);
-        printf("%f\n", ans);
+        // printf("%f\n", ans);
     }
 
     return ans;
 }
 
+int check_in(double x_cord, double y_cord)
+{
+    if (y_cord <= normal_function(x_cord))
+    {
+        return 1;
+    }
+    return 0;
+}
+double monte_calro(int cnt = 10000, double height = 10000.0)
+{
+    lld count;
+    double range = end - start;
+    double field = height * range;
+    for (int i = 0; i < cnt; i++)
+    { // cnt 개 점에서 성립 확인
+        double x_cord = randfrom(start, end);
+        double y_cord = randfrom(0, height);
+        if (check_in(x_cord, y_cord))
+        {
+            count += 1;
+        }
+    }
+    return (float)count * field / (float)cnt;
+}
+void test_rand()
+{
+    for (int j = 0; j < 20; j++)
+    {
+        int less1 = 0;
+        int more1 = 0;
+        for (int i = 0; i < 10000; i++)
+        {
+            double d = randfrom(0, 1000);
+            // printf("%f\n", d);
+            if (d <= 1)
+            {
+                less1++;
+            }
+            else
+            {
+                more1++;
+            }
+        }
+        printf("%d %d\n", less1, more1);
+    }
+}
 int main()
 {
     init_rand(0);
-
     printf("one function\nformat:(2x^2+5)>");
     char c = 0;
 
@@ -166,17 +207,17 @@ int main()
     if (mode == 1 && dim_maybe == 0)
     {
         dim_maybe = 1;
-        what();
     }
     else if (mode == 0 && dim_maybe == 0)
     {
         dim_maybe = 0;
-        what();
     }
+    what();
+
     show_dim();
     printf("where to where\n>");
     scanf("%f %f", &start, &end);
-    printf("this is your integral haha\n>'%f'", normal_integral(start, end));
-
+    printf("this is your integral haha\n>'%f'\n", normal_integral(start, end));
+    printf("now monte carlo\n>'%f'\n", monte_calro(10000000));
     return 0;
 }
