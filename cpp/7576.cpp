@@ -3,12 +3,13 @@
 
 int n,m;
 short box[1000][1000];
-std::queue<int> Q1;
+std::queue<short> Q1;
+std::queue<short> Q2;
 
 int main()
 {
 
-    Q1.push(1);
+    
 
     return 0;
 }
