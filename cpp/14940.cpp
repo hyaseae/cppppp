@@ -1,19 +1,18 @@
-#include <stdio.h>
 #include <queue>
-#include <utility>
-int n,m;
-short way[1000][1000];
-typedef std::pair<int,int> cord;
+#include <stdio.h>
+int n, m;
+short way[1001][1001];
+typedef std::pair<int, int> cord;
 std::queue<cord> Q;
 cord start = std::make_pair(0, 0);
 int main()
 {
-    scanf("%d %d",&n,&m);
-    for (int i = 0; i < n; i ++)
+    scanf("%d %d", &n, &m);
+    for (int i = 0; i < n; i++)
     {
-        for (int j = 0; j < m; j ++)
+        for (int j = 0; j < m; j++)
         {
-            scanf("%hd",&way[i][j]);
+            scanf("%hd", &way[i][j]);
             if (way[i][j] == 2)
             {
                 start = std::make_pair(i, j);
@@ -25,7 +24,14 @@ int main()
     {
         cord now = Q.front();
         Q.pop();
-        printf("%d %d\n",now.first,now.second);
-        
+        printf("%d %d\n", now.first, now.second);
+        int place[4][2] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        for (int i = 0; i < 4; i++)
+        {
+            if (way[place[i][0] + now.first][place[i][0] + now.second] == 1)
+            {
+                
+            }
+        }
     }
 }
