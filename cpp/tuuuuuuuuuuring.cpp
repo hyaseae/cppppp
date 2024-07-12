@@ -186,7 +186,7 @@ void input_plus_minus(int c)
         input_bit(1);
         input_bit(1);
     }
-    else if (c ==-1)
+    else if (c == -1)
     {
         input_bit(0);
         input_bit(1);
@@ -196,18 +196,19 @@ void input_plus_minus(int c)
         input_bit(1);
     }
 }
-void input_num(int decimal) 
+void input_num(int decimal)
 {
     int num = decimal;
     if (num >= 0)
     {
         input_plus_minus(1);
     }
-    else {
+    else
+    {
         input_plus_minus(-1);
         num = -num;
     }
-    
+
     short llong[32];
     int i = 31;
     for (i = 31; i >= 0; i--)
@@ -218,9 +219,9 @@ void input_num(int decimal)
         if (num == 0)
             break;
     }
-    for (int j = 31-i; j >= 0; j--)
+    for (int j = 31 - i; j >= 0; j--)
     {
-        //printf("%d", llong[j]);
+        // printf("%d", llong[j]);
         input_zero_to_one(llong[j]);
     }
     input_colon();
@@ -232,7 +233,7 @@ int main()
     while (1)
     {
         scanf("%c", &a);
-        a-='0';
+        a -= '0';
         if (a == 1)
         {
             show_tape();
@@ -272,15 +273,15 @@ int main()
                 input_num(i);
             }
         }
-        else if (a+'0' == '+')
+        else if (a + '0' == '+')
         {
             input_plus_minus(1);
         }
-        else if (a+'0' == '-')
+        else if (a + '0' == '-')
         {
             input_plus_minus(-1);
         }
-        else if (a+'0' == 'f')
+        else if (a + '0' == 'f')
         {
             init_tape();
         }
