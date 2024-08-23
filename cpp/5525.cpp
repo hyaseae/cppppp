@@ -1,39 +1,47 @@
 #include <stdio.h>
-int cnt,mode,last;
-char before;
+int cnt, mode, last;
 int main()
 {
+    char before = '\0';
     int n;
-    int cnts[10001];
+    int cnts[100001];
     scanf("%d", &n);
     int t;
-    scanf("%d\n",&t);
+    scanf("%d\n", &t);
     char c = '\0';
-    for (int i = 0; i < t; i ++)
+    for (int i = 0; i < t; i++)
     {
         before = c;
-        scanf("%c",&c);
+        scanf("%c", &c);
         if (mode)
         {
+            if (c != 'O' && c != 'I')
+            {
+                i--;
+                continue;
+            }
             if (before == 'I')
             {
                 if (c == 'O')
                 {
                 }
-                else {
+                else
+                {
                     cnts[last] = cnt;
                     cnt = 0;
                     mode = 1;
                     last++;
                 }
             }
-            else {
-                if (c=='I')
+            else
+            {
+                if (c == 'I')
                 {
                     cnt++;
                 }
-                else {
-                    
+                else
+                {
+
                     cnts[last] = cnt;
                     cnt = 0;
                     mode = 0;
@@ -50,14 +58,21 @@ int main()
             }
         }
     }
+    if (mode)
+    {
+        cnts[last] = cnt;
+        cnt = 0;
+        mode = 0;
+        last++;
+    }
     int ans = 0;
-    for (int i = 0; i < last; i ++)
+    for (int i = 0; i < last; i++)
     {
         if (cnts[i] - n >= 0)
         {
             ans += cnts[i] - n + 1;
         }
     }
-    printf("%d",ans);
+    printf("%d", ans);
     return 0;
 }
