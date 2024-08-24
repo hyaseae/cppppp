@@ -1,10 +1,10 @@
 #include <stdio.h>
 int cnt, mode, last;
+char before = '\0';
+int cnts[1000001];
 int main()
 {
-    char before = '\0';
     int n;
-    int cnts[100001];
     scanf("%d", &n);
     int t;
     scanf("%d\n", &t);
@@ -73,6 +73,6 @@ int main()
             ans += cnts[i] - n + 1;
         }
     }
-    printf("%d", ans);
+    printf("%d\n", ans);
     return 0;
 }
