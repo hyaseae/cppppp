@@ -1,8 +1,70 @@
-#include <algorithm>
 #include <stdio.h>
 typedef long long int lld;
 lld heap[200002];
-// 정렬만 해도 답이 나온다고? 이거 완전 럭키비키잖아~ <-아님 <- 시간초과
+typedef struct five_elements
+{
+    int num;
+    int p1;
+    int p2;
+    int c1;
+    int c2;
+} item;
+item a = {1, 1, 1, 1, 1};
+
+// 아이디어:이중 힙...?
+//  정렬만 해도 답이 나온다고? 이거 완전 럭키비키잖아~ <-아님 <- 시간초과
+/*
+1
+
+1
+5
+
+1
+3
+5
+
+1
+3
+5
+
+1
+3
+5 7
+
+1
+3 5
+7
+
+1
+3 5
+7 4
+않이 그니까 미는 것도 시간이 든다니까 에반디;;
+거꾸로 힙 쌓기?
+
+
+1
+
+1 3
+
+1 3 4
+
+1
+3 4
+
+1
+3 4 7
+
+1
+3 4
+7
+
+
+
+
+
+
+
+*/
 int last = 0, t, q, n, f, b, i, j;
 char c;
 void what()
@@ -12,12 +74,12 @@ void what()
     printf("\n");
 }
 void swap_heap(int a, int b)
-{  
+{
     lld t = heap[a];
     heap[a] = heap[b];
     heap[b] = t;
 }
-void del()
+void del_min()
 {
     int now = 1;
     heap[1] = heap[last];
@@ -47,61 +109,17 @@ void del()
             break;
     }
 }
-int get_max()
+void insert_at_place(lld a, int where)
 {
-    lld max = -1 * (1l << 32);
-    int max_index = -1;
-    for (int k = last / 2 + 1; k <= last; k++)
-    {
-        if (max < heap[k])
-        {
-            max_index = k;
-            max = heap[k];
-        }
-    }
-    return max_index;
-}
-void insert_at_place(lld a,int where)
-{
-    heap[where] = a;
-    for (int i = last; i != 0; i /= 2)
-    {
-        if (heap[i] < heap[i / 2])
-        {
-            lld t = heap[i];
-            heap[i] = heap[i / 2];
-            heap[i / 2] = t;
-        }
-        else
-            break;
-    }
 }
 void del_max()
 {
-    int max_index;
-    max_index = get_max();
-    swap_heap(last, max_index);
-    insert_at_place(heap[max_index], max_index);
-    heap[last] = 0;
-    last--;
 }
 void put(lld a)
 {
-    last++;
-
-    heap[last] = a > 0 ? a : a - 1;
-    for (int i = last; i > 1; i /= 2)
-    {
-
-        if (heap[i] < heap[i / 2])
-        {
-            lld t = heap[i];
-            heap[i] = heap[i / 2];
-            heap[i / 2] = t;
-        }
-        else
-            break;
-    }
+}
+int get_max()
+{
 }
 int main()
 {
@@ -118,10 +136,11 @@ int main()
             }
             else if (c == 'D')
             {
-                if (last <= 0) continue;
+                if (last <= 0)
+                    continue;
                 if (q == -1)
                 {
-                    del();
+                    del_min();
                 }
                 else if (q == 1)
                 {
@@ -136,6 +155,7 @@ int main()
         }
 
         int max_ = get_max();
-        printf("%lld %lld\n",heap[1] > 0 ? heap[1] : heap[1] + 1,heap[max_] > 0 ? heap[max_] : heap[max_]+1);
+
+        printf("%lld %lld\n", heap[1] > 0 ? heap[1] : heap[1] + 1, heap[max_] > 0 ? heap[max_] : heap[max_] + 1);
     }
 }
