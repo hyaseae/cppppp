@@ -152,8 +152,38 @@ void check(int where)
         return;
     }
     int grandparent = a[p].parent;
-    if (get_BF(grandparent))
+    int bf = get_BF(grandparent);
+    if (absolute(bf) <= 1)
+    {
         return;
+    }
+    if (bf >= 2)
+    {
+        if (a[grandparent].c1 == p)
+        {
+            //LL
+            LL(grandparent);
+        }
+        else
+        {
+            //LR
+            LR(grandparent);
+        }
+    }
+    else
+    {
+        if (a[grandparent].c2 == p)
+        {
+            //RR
+            RR(grandparent);
+        }
+        else
+        {
+            //RL
+            RL(grandparent);
+        }
+    }
+    return;
 }
 void put(int value)
 {
