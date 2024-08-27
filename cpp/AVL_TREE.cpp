@@ -12,6 +12,7 @@ typedef struct nodedata
 } node;
 node a[100002];
 int end = 0;
+int start = 0;
 int max(int c, int b)
 {
     return c > b ? c : b;
@@ -53,7 +54,7 @@ int get_BF(int index)
 
 void print_node()
 {
-    Q_now.push(0);
+    Q_now.push(start);
     while (1)
     {
         if (Q_now.empty() && Q_later.empty())
@@ -96,7 +97,7 @@ int find_parent(int value = 0, int from = 0)
     {
         if (a[from].c1 != NO_CHILD)
         {
-            return find_parent(a[from].c1, value);
+            return find_parent(value, a[from].c1);
         }
         else
         {
@@ -107,7 +108,7 @@ int find_parent(int value = 0, int from = 0)
     {
         if (a[from].c2 != NO_CHILD)
         {
-            return find_parent(a[from].c2, value);
+            return find_parent(value, a[from].c2);
         }
         else
         {
@@ -126,6 +127,10 @@ void LL(int where)
     a[child].c2 = where;
     a[child].parent = a[where].parent;
     a[where].parent = child;
+    if (a[child].parent == -1)
+    {
+        start = child;
+    }
 }
 void RR(int where)
 {
@@ -138,6 +143,10 @@ void RR(int where)
     a[child].c1 = where;
     a[child].parent = a[where].parent;
     a[where].parent = child;
+    if (a[child].parent == -1)
+    {
+        start = child;
+    }
 }
 void LR(int where)
 {
@@ -196,7 +205,7 @@ void check(int where)
 }
 void put(int value)
 {
-    int p = find_parent(0, value);
+    int p = find_parent(value, 0);
     a[end] = {value, p};
     a[end].not_empty = 1;
     if (p == -1)
