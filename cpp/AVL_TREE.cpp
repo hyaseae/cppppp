@@ -1,6 +1,8 @@
 #include <queue>
 #include <stdio.h>
 const int NO_CHILD = 100001;
+std::queue<int> Q_now;
+std::queue<int> Q_later;
 typedef struct nodedata
 {
     int value;
@@ -48,10 +50,9 @@ int get_BF(int index)
     h2 = get_height(a[index].c2);
     return h1 - h2;
 }
+
 void print_node()
 {
-    std::queue<int> Q_now;
-    std::queue<int> Q_later;
     Q_now.push(0);
     while (1)
     {
@@ -62,7 +63,7 @@ void print_node()
         }
         else if (Q_now.empty())
         {
-            for (int i = 0; i < Q_later.size(); i++)
+            while (0 < Q_later.size())
             {
                 Q_now.push(Q_later.front());
                 Q_later.pop();
@@ -84,28 +85,34 @@ void print_node()
     {
         return;
     }
-    for (int i = 0; i < end; i++)
-    {
-        printf("%d %d\n", a[i].value, get_BF(i));
-    }
 }
-int find_parent(int from = 0)
+int find_parent(int value = 0, int from = 0)
 {
     if (end == 0)
     {
         return -1;
     }
-    if (a[from].c1 != NO_CHILD)
+    if (a[from].value > value)
     {
-        return find_parent(a[from].c1);
-    }
-    else if (a[from].c2 != NO_CHILD)
-    {
-        return find_parent(a[from].c2);
+        if (a[from].c1 != NO_CHILD)
+        {
+            return find_parent(a[from].c1, value);
+        }
+        else
+        {
+            return from;
+        }
     }
     else
     {
-        return from;
+        if (a[from].c2 != NO_CHILD)
+        {
+            return find_parent(a[from].c2, value);
+        }
+        else
+        {
+            return from;
+        }
     }
 }
 void LL(int where)
@@ -115,6 +122,7 @@ void LL(int where)
     {
         a[a[child].c2].parent = where;
     }
+    a[where].c1 = a[child].c2;
     a[child].c2 = where;
     a[child].parent = a[where].parent;
     a[where].parent = child;
@@ -126,6 +134,7 @@ void RR(int where)
     {
         a[a[child].c1].parent = where;
     }
+    a[where].c2 = a[child].c1;
     a[child].c1 = where;
     a[child].parent = a[where].parent;
     a[where].parent = child;
@@ -159,27 +168,27 @@ void check(int where)
     }
     if (bf >= 2)
     {
-        if (a[grandparent].c1 == p)
+        if (a[p].c1 == where)
         {
-            //LL
+            // LL
             LL(grandparent);
         }
         else
         {
-            //LR
+            // LR
             LR(grandparent);
         }
     }
     else
     {
-        if (a[grandparent].c2 == p)
+        if (a[p].c2 == where)
         {
-            //RR
+            // RR
             RR(grandparent);
         }
         else
         {
-            //RL
+            // RL
             RL(grandparent);
         }
     }
@@ -187,29 +196,34 @@ void check(int where)
 }
 void put(int value)
 {
-    int p = find_parent();
+    int p = find_parent(0, value);
     a[end] = {value, p};
     a[end].not_empty = 1;
     if (p == -1)
     {
-        ;
+        end++;
+        return;
     }
-    else if (a[p].c1 == NO_CHILD)
+
+    if (value > a[p].value)
     {
-        a[p].c1 = end;
-    }
-    else if (a[p].c2 == NO_CHILD)
-    {
+        a[end].parent = p;
         a[p].c2 = end;
+    }
+    else if (value < a[p].value)
+    {
+        a[end].parent = p;
+        a[p].c1 = end;
     }
     else
     {
-        printf("ERERRRRERRR");
+        print_node();
+        printf("중복은 허용이 안됨\n");
         return;
     }
     check(end);
-    end++;
     print_node();
+    end++;
     return;
 }
 int main()
