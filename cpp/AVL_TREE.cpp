@@ -14,6 +14,10 @@ int max(int c, int b)
 {
     return c > b ? c : b;
 }
+int absolute(int k)
+{
+    return k > 0 ? k : -k;
+}
 void swap_node_for_print(int a1, int a2)
 {
     node t = a[a1];
@@ -126,9 +130,30 @@ void RR(int where)
     a[child].parent = a[where].parent;
     a[where].parent = child;
 }
+void LR(int where)
+{
+    RR(a[where].c1);
+    LL(where);
+}
+void RL(int where)
+{
+    LL(a[where].c2);
+    RR(where);
+}
 void check(int where)
 {
-    return;
+    if (a[where].parent == -1)
+    {
+        return;
+    }
+    int p = a[where].parent;
+    if (a[p].parent == -1)
+    {
+        return;
+    }
+    int grandparent = a[p].parent;
+    if (get_BF(grandparent))
+        return;
 }
 void put(int value)
 {
