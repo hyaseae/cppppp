@@ -235,9 +235,54 @@ void put(int value)
     end++;
     return;
 }
+int find_value(int value = 0, int from = 0)
+{
+    if (a[from].value == value)
+    {
+        return from;
+    }
+    if (value > a[from].value)
+    {
+        if (a[from].c2 != NO_CHILD)
+        {
+            return NO_CHILD;
+        }
+        return find_value(value,a[from].c2);
+    }
+    else 
+    {
+        if (a[from].c1 != NO_CHILD)
+        {
+            return NO_CHILD;
+        }
+        return find_value(value,a[from].c1);
+    }
+}
+int exile(int where)
+{
+    if (a[where].c1 != NO_CHILD)
+    {
+        //i'l do it later yepppppp
+    }
+}
+void del_val(int value)
+{
+    int where = find_value(value, start);
+    int p = a[where].parent;
+    
+    print_node();
+    return;
+}
 int main()
 {
     int n;
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++)
+    {
+        int k;
+        scanf("%d", &k);
+        put(k);
+    }
     scanf("%d", &n);
     for (int i = 0; i < n; i++)
     {
