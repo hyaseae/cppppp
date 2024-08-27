@@ -1,36 +1,61 @@
 #include <cstddef>
 #include <stdio.h>
+const int NO_CHILD = 100001;
 typedef struct nodedata
 {
     int value;
     int parent;
-    int c1, c2;
-    int height = 0;
+    int c1 = NO_CHILD, c2 = NO_CHILD;
+    int is_empty = 1;
 } node;
 node a[100000];
 int end = 0;
+int max(int a, int b)
+{
+    return a > b ? a : b;
+}
+int get_height(int pos)
+{
+    int h1 = -1, h2 = -1;
+    if (a[pos].is_empty == 1)
+    {
+        return -1;
+    }
+    if (a[a[pos].c1].is_empty == 0)
+    {
+        h1 = get_height(a[pos].c1) + 1;
+    }
+    else if (a[a[pos].c2].is_empty == 0)
+    {
+        h2 = get_height(a[pos].c2) + 1;
+    }
+    return max(h1, h2);
+}
 int get_BF(int index)
 {
     int h1, h2;
-    if (a[index].height == 0)
+    if (get_height(index) <= 0)
     {
         return 0;
     }
-    if (a[a[index].c1].height == 0)
-    {
-        h1 = 0;
-    }
-    else {
-        h1 = a[a[index].c1].height;
-    }
-    if (a[a[index].c2].height == 0)
-    {
-        h2 = 0;
-    }
-    else {
-        h2 = a[a[index].c2].height;
-    }
+    h1 = get_height(a[index].c1);
+    h2 = get_height(a[index].c2);
     return h1 - h2;
+}
+int find_parent(int from = 0)
+{
+    if (end == 0)
+    {
+        return -1;
+    }
+    if (a[a[from].c1].is_it_leaf == 0)
+    {
+        return find_parent(a[from].c1);
+    }
+    else
+    {
+        return a[from].c1;
+    }
 }
 void swap_node_for_print(int a1, int a2)
 {
@@ -51,7 +76,7 @@ void print_node()
 }
 void put(int value)
 {
-
+    a[end] = {value, find_parent(), 100001, 100001, 0, 1};
     end++;
     return;
 }

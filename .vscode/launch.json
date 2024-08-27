@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/workspace/cppppp/cpp/solved",
-      "program": "/workspace/cppppp/cpp/solved/build/Debug/outDebug",
+      "cwd": "/workspace/cppppp/cpp",
+      "program": "/workspace/cppppp/cpp/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
