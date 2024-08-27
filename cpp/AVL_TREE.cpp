@@ -1,4 +1,3 @@
-#include <cstddef>
 #include <stdio.h>
 const int NO_CHILD = 100001;
 typedef struct nodedata
@@ -13,6 +12,12 @@ int end = 0;
 int max(int a, int b)
 {
     return a > b ? a : b;
+}
+void swap_node_for_print(int a1, int a2)
+{
+    node t = a[a1];
+    a[a1] = a[a2];
+    a[a2] = t;
 }
 int get_height(int pos)
 {
@@ -42,27 +47,6 @@ int get_BF(int index)
     h2 = get_height(a[index].c2);
     return h1 - h2;
 }
-int find_parent(int from = 0)
-{
-    if (end == 0)
-    {
-        return -1;
-    }
-    if (a[a[from].c1].is_it_leaf == 0)
-    {
-        return find_parent(a[from].c1);
-    }
-    else
-    {
-        return a[from].c1;
-    }
-}
-void swap_node_for_print(int a1, int a2)
-{
-    node t = a[a1];
-    a[a1] = a[a2];
-    a[a2] = t;
-}
 void print_node()
 {
     if (end == -1)
@@ -74,10 +58,35 @@ void print_node()
         printf("%d %d", a[i].value, get_BF(i));
     }
 }
+int find_parent(int from = 0)
+{
+    if (end == 0)
+    {
+        return -1;
+    }
+    if (a[a[from].c1].is_empty == 0)
+    {
+        return find_parent(a[from].c1);
+    }
+    else if (a[a[from].c2].is_empty == 0)
+    {
+        return find_parent(a[from].c2);
+    }
+    else
+    {
+        return from;
+    }
+}
+void check(int where)
+{
+    return;
+}
 void put(int value)
 {
-    a[end] = {value, find_parent(), 100001, 100001, 0, 1};
+    a[end] = {value, find_parent()};
+    check(end);
     end++;
+    print_node();
     return;
 }
 int main()
