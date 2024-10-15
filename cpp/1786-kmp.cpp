@@ -11,18 +11,20 @@ void calc_kmp()
     {
         if (P[i] == P[j])
         {
-            i++;
+            //abcabcabc
+            //a b c a b c 
             if ((j + 1) < (i + 1) * 2)
             {
-                i--;
+                j++;
+                continue;
             }
             k[j] = k[j - 1] + 1;
-            printf("%d %d %d\n", P[i],i,j);
         }
         else
         {
             i = 0;
         }
+        i++;
         j++;
     }
     i = 0;
