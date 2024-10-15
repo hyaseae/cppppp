@@ -2,7 +2,9 @@
 int k[1000000];
 char T[1000000];
 char P[1000000];
+int cnt[1000000];
 int i, j, check;
+int num;
 void calc_kmp()
 {
     check = 1;
@@ -75,12 +77,16 @@ int kmp()
 {
     int a = 0;
     int matched = 0;
+    // 뜌땨땨뜌땨뜌
+    // 뜌땨뜌
+
+    // 뜌땨야
+    // 뜌땨야
+
+    // 뜌땨야 뜌땨야우뜌땨 뜌땨야우뜌땨야우뜌땨우아
+    // 뜌땨야우뜌땨우
     for (a = 0; T[a] != 0; a++)
     {
-        if (P[matched] = 0)
-        {
-            break;
-        }
         if (T[a] == P[matched])
         {
             matched++;
@@ -90,17 +96,41 @@ int kmp()
             if (matched != 0)
             {
                 matched = k[matched - 1];
+                a--;
             }
         }
+        if (P[matched] == 0)
+        {
+            break;
+        }
     }
-    return a;
+    return a - matched + 2;
 }
 int main()
 {
-    scanf("%s", T); // 원본
-    scanf("%s", P); // 찾는거
+    char c;
+    int k = 0;
+    while (1)
+    {
+        scanf("%c", &c);
+        if (c == '\n')
+            break;
+        T[k] = c;
+        k++;
+    }
+    k = 0;
+    while (1)
+    {
+        scanf("%c", &c);
+        if (c == '\n')
+            break;
+        P[k] = c;
+        k++;
+    }
+    // printf("\n\n%s\n", T);
     calc_kmp();
-    print_ki();
+    // print_ki();
+    printf("%d", kmp());
     return 1;
     // aabaaabaaabaaabaaaba <- 반례
     // 01012001200120012001?
